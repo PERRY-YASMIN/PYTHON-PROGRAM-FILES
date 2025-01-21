@@ -1,0 +1,47 @@
+print("URK24CS1044 SHAIK YASMIN")
+users = { "user1": {"passwords": ["pass123", "word456", "abc789"], "attempts": 0, "blocked": False},
+    "user2": {"passwords": ["admin111", "secure222", "password333"], "attempts": 0, "blocked": False},
+    "user3": {"passwords": ["12345", "qwerty", "letmein"], "attempts": 0, "blocked": False}}
+def authenticate_user(username):
+    if users[username]["blocked"]:
+        print(f"{username} is blocked due to too many failed attempts.")
+        return False
+    attempts = 0
+    while attempts < 3:
+        password = input(f"Enter password for {username}: ")
+       
+        if password in users[username]["passwords"]:
+            print(f"Login successful for {username}!")
+            return True
+        else:
+            attempts += 1
+            print(f"Incorrect password. Attempt {attempts}/3.")
+          if attempts == 3:
+            users[username]["attempts"] += 1
+            if users[username]["attempts"] >= 5:
+                users[username]["blocked"] = True
+                print(f"{username} is now blocked due to 5 consecutive failed login attempts.")
+            return False
+    return False
+
+while True:
+    print("\nMenu:")
+    print("1. Login as User 1")
+    print("2. Login as User 2")
+    print("3. Login as User 3")
+    print("4. Exit")
+    choice = input("Enter your choice: ")
+    if choice == '1':
+        if not authenticate_user("user1"):
+            print("Login failed.")
+    elif choice == '2':
+        if not authenticate_user("user2"):
+            print("Login failed.")
+    elif choice == '3':
+        if not authenticate_user("user3"):
+            print("Login failed.")
+    elif choice == '4':
+        print("Exiting the program.")
+        break
+    else:
+        print("Invalid choice! Please try again.")
